@@ -41,8 +41,35 @@ content.addEventListener('submit', event => {
         : `You are meeting a 20% savings target. Keep the ${rupees(balance)} monthly buffer for goals, emergencies, or early debt repayment.`;
     result.innerHTML = `<section class="budget-insight"><div class="result-title"><div><small>YOUR BUDGET SNAPSHOT</small><h3>A clearer monthly picture</h3></div><span class="status ${statusClass}">${status}</span></div><div class="snapshot-grid"><div><small>Monthly income</small><strong>${rupees(income)}</strong></div><div><small>Planned spending</small><strong>${rupees(spent)}</strong></div><div><small>Monthly balance</small><strong class="${balance < 0 ? 'negative-text' : ''}">${balance < 0 ? '-' : ''}${rupees(Math.abs(balance))}</strong></div></div><div class="insight-columns"><div class="mix-card"><h4>Planned spending mix</h4>${bars}</div><div class="next-card"><small>NEXT BEST STEP</small><h4>${nextStep}</h4><p>At this pace, your 12-month balance would be ${balance >= 0 ? rupees(balance * 12) : `a shortfall of ${rupees(Math.abs(balance * 12))}`}.</p></div></div><p class="result-note">Planning estimate only. Your inputs stay in this browser and are not stored.</p></section>`;
   }
-  if (form.dataset.calculator === 'commute') { const defaults = { bike: 2.5, car: 8, metro: 3, bus: 2, cab: 15 }; if (event.submitter === form.querySelector('button') && data.rate === '2.5' && data.mode !== 'bike') form.rate.value = defaults[data.mode]; const rate = Number(form.rate.value); const monthly = Number(data.distance) * 2 * Number(data.days) * rate; result.innerHTML = `<small>ESTIMATED MONTHLY COMMUTE COST</small><strong>${rupees(monthly)}</strong><p>That is about ${rupees(monthly / Number(data.days))} per workday and ${rupees(monthly * 12)} a year. This is an estimate&mdash;fuel, fares, and maintenance vary by city.</p>`; }
-  if (form.dataset.calculator === 'emi') { const p=Number(data.principal), n=Number(data.years)*12, r=Number(data.rate)/1200; const emi=r ? p*r*Math.pow(1+r,n)/(Math.pow(1+r,n)-1) : p/n; const interest=emi*n-p; result.innerHTML = `<small>YOUR ESTIMATED MONTHLY EMI</small><strong>${rupees(emi)}</strong><p>Total repayment: ${rupees(emi*n)}. Total interest: ${rupees(interest)}. Paying even a little extra early can reduce this interest.</p>`; }
+  if (form.dataset.calculator === 'commute') {
+    const defaults = { bike: 2.5, car: 8, metro: 3, bus: 2, cab: 15 };
+    if (event.submitter === form.querySelector('button') && data.rate === '2.5' && data.mode !== 'bike') form.rate.value = defaults[data.mode];
+    const rate = Number(form.rate.value);
+    const days = Number(data.days);
+    const distance = Number(data.distance);
+    const monthly = distance * 2 * days * rate;
+    const yearly = monthly * 12;
+    const carMonthly = distance * 2 * days * defaults.car;
+    const alternative = data.mode === 'car' ? 0 : Math.max(0, carMonthly - monthly);
+    const modeName = form.mode.options[form.mode.selectedIndex].text;
+    const nextStep = data.mode === 'car'
+      ? `Your car estimate is based on ${rupees(rate)} per km. Compare it with carpooling or public transport before committing to a daily route.`
+      : `Compared with an estimated car commute, this route could save about ${rupees(alternative)} each month.`;
+    result.innerHTML = `<section class="budget-insight"><div class="result-title"><div><small>COMMUTE COST SNAPSHOT</small><h3>${modeName} at a glance</h3></div><span class="status positive">Cost estimate</span></div><div class="snapshot-grid"><div><small>Monthly cost</small><strong>${rupees(monthly)}</strong></div><div><small>Per workday</small><strong>${rupees(monthly / days)}</strong></div><div><small>Annual cost</small><strong>${rupees(yearly)}</strong></div></div><div class="insight-columns"><div class="mix-card"><h4>Your route assumptions</h4><div class="fact-row"><span>Round-trip distance</span><b>${distance * 2} km</b></div><div class="fact-row"><span>Working days</span><b>${days} / month</b></div><div class="fact-row"><span>Cost per km</span><b>${rupees(rate)}</b></div></div><div class="next-card"><small>DECISION INSIGHT</small><h4>${nextStep}</h4><p>Update the cost per km whenever your fuel price or fare changes.</p></div></div><p class="result-note">Planning estimate only. Fuel, fares, parking, maintenance, and city routes can change the final cost.</p></section>`;
+  }
+  if (form.dataset.calculator === 'emi') {
+    const principal = Number(data.principal);
+    const months = Number(data.years) * 12;
+    const monthlyRate = Number(data.rate) / 1200;
+    const emi = monthlyRate ? principal * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1) : principal / months;
+    const totalRepayment = emi * months;
+    const interest = totalRepayment - principal;
+    const interestShare = totalRepayment ? Math.round((interest / totalRepayment) * 100) : 0;
+    const nextStep = interest > 0
+      ? `Interest accounts for ${interestShare}% of your total repayment. A prepayment made early in the loan can reduce interest and shorten the term.`
+      : `This is a zero-interest repayment plan, so your total repayment is equal to the amount borrowed.`;
+    result.innerHTML = `<section class="budget-insight"><div class="result-title"><div><small>LOAN REPAYMENT SNAPSHOT</small><h3>Your borrowing in brief</h3></div><span class="status ${interestShare > 35 ? 'watch' : 'positive'}">${interestShare > 35 ? 'Interest-heavy' : 'Repayment plan'}</span></div><div class="snapshot-grid"><div><small>Monthly EMI</small><strong>${rupees(emi)}</strong></div><div><small>Total interest</small><strong>${rupees(interest)}</strong></div><div><small>Total repayment</small><strong>${rupees(totalRepayment)}</strong></div></div><div class="insight-columns"><div class="mix-card"><h4>Loan structure</h4><div class="fact-row"><span>Amount borrowed</span><b>${rupees(principal)}</b></div><div class="fact-row"><span>Interest rate</span><b>${Number(data.rate)}% p.a.</b></div><div class="fact-row"><span>Repayment period</span><b>${Number(data.years)} years</b></div></div><div class="next-card"><small>DECISION INSIGHT</small><h4>${nextStep}</h4><p>Check your lender's prepayment charge and terms before making an extra payment.</p></div></div><p class="result-note">Illustrative calculation using a standard reducing-balance EMI formula. It is not financial advice.</p></section>`;
+  }
   result.classList.add('show');
 });
 
