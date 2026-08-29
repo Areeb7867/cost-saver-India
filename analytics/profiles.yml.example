@@ -1,0 +1,11 @@
+costsaver_india:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: your-gcp-project-id
+      dataset: costsaver_analytics
+      threads: 4
+      location: asia-south1
+
