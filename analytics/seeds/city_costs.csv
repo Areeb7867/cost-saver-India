@@ -1,0 +1,17 @@
+city,category,monthly_estimated_cost,updated_at
+Bengaluru,Housing,18000,2026-08-01
+Bengaluru,Food,7000,2026-08-01
+Bengaluru,Transport,3500,2026-08-01
+Delhi,Housing,16000,2026-08-01
+Delhi,Food,6500,2026-08-01
+Delhi,Transport,3000,2026-08-01
+Hyderabad,Housing,14000,2026-08-01
+Hyderabad,Food,6000,2026-08-01
+Hyderabad,Transport,2500,2026-08-01
+Kolkata,Housing,12000,2026-08-01
+Kolkata,Food,5500,2026-08-01
+Kolkata,Transport,2200,2026-08-01
+Mumbai,Housing,28000,2026-08-01
+Mumbai,Food,8500,2026-08-01
+Mumbai,Transport,4200,2026-08-01
+
