@@ -1,0 +1,17 @@
+name: costsaver_india
+version: 1.0.0
+config-version: 2
+
+profile: costsaver_india
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  costsaver_india:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
+
