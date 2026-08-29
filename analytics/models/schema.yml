@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: stg_city_costs
+    description: Cleaned monthly city-cost records used by CostSaver India.
+    columns:
+      - name: city
+        tests: [not_null]
+      - name: category
+        tests: [not_null]
+      - name: monthly_estimated_cost
+        tests: [not_null]
+
+  - name: city_cost_summary
+    description: City-level monthly household cost summary for the public dashboard.
+    columns:
+      - name: city
+        tests: [unique, not_null]
+
