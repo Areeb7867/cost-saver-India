@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CostSaver India Admin</title>
+    <style>
+      body{font-family:Arial,sans-serif;margin:0;background:#f7f5ef;color:#123139}.shell{max-width:860px;margin:48px auto;padding:0 20px}.panel{background:#fff;border:1px solid #d8dfd9;border-radius:10px;padding:28px;box-shadow:0 8px 25px #12313912}h1{margin:0 0 8px}p{color:#5d7173;line-height:1.5}form{display:grid;gap:12px;max-width:380px;margin-top:22px}label{font-size:13px;font-weight:bold}input{font:16px Arial;padding:11px;border:1px solid #b7c4bd;border-radius:5px}button{font:700 14px Arial;background:#123139;color:#fff;padding:12px;border:0;border-radius:5px;cursor:pointer}button.secondary{background:#e5ece7;color:#123139}#message{margin-top:14px;font-size:14px}table{width:100%;border-collapse:collapse;margin-top:18px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid #e1e6e2;font-size:14px}th{color:#5d7173;font-size:12px}#dashboard{display:none}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.toolbar button{width:auto}.error{color:#a12e27}.success{color:#156c38}@media(max-width:600px){.shell{margin:25px auto}.panel{padding:20px}table{font-size:12px}th,td{padding:8px 4px}}
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel" id="login-panel">
+        <h1>CostSaver India Admin</h1>
+        <p>Sign in with the email configured as the administrator. Only admins can view registered accounts.</p>
+        <form id="login-form">
+          <label>Email <input type="email" id="email" required autocomplete="email" /></label>
+          <label>Password <input type="password" id="password" required autocomplete="current-password" /></label>
+          <button type="submit">Sign in</button>
+        </form>
+        <p id="message" aria-live="polite"></p>
+      </section>
+
+      <section class="panel" id="dashboard">
+        <div class="toolbar"><div><h1>Registered accounts</h1><p>Minimal account information only. Passwords are never visible.</p></div><button class="secondary" id="logout" type="button">Sign out</button></div>
+        <p id="account-count" aria-live="polite"></p>
+        <table><thead><tr><th>Email</th><th>Name</th><th>Role</th><th>Joined</th></tr></thead><tbody id="users"></tbody></table>
+      </section>
+    </main>
+    <script>
+      const tokenKey = 'costsaver_admin_token';
+      const loginPanel = document.querySelector('#login-panel');
+      const dashboard = document.querySelector('#dashboard');
+      const message = document.querySelector('#message');
+      const escapeHtml = value => String(value || '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+      async function showUsers(token) {
+        const response = await fetch('/admin/users', {headers:{Authorization:`Bearer ${token}`}});
+        if (!response.ok) throw new Error((await response.json()).detail || 'Unable to load accounts');
+        const users = await response.json();
+        document.querySelector('#users').innerHTML = users.map(user => `<tr><td>${escapeHtml(user.email)}</td><td>${escapeHtml(user.full_name) || '-'}</td><td>${escapeHtml(user.role)}</td><td>${new Date(user.created_at).toLocaleDateString()}</td></tr>`).join('');
+        document.querySelector('#account-count').textContent = `${users.length} registered account${users.length === 1 ? '' : 's'}`;
+        loginPanel.style.display = 'none'; dashboard.style.display = 'block';
+      }
+      document.querySelector('#login-form').addEventListener('submit', async event => {
+        event.preventDefault(); message.textContent = 'Signing in...'; message.className = '';
+        const response = await fetch('/auth/login', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:document.querySelector('#email').value,password:document.querySelector('#password').value})});
+        if (!response.ok) { message.textContent = (await response.json()).detail || 'Sign-in failed'; message.className = 'error'; return; }
+        const {access_token} = await response.json(); localStorage.setItem(tokenKey, access_token);
+        try { await showUsers(access_token); } catch (error) { message.textContent = error.message; message.className = 'error'; localStorage.removeItem(tokenKey); }
+      });
+      document.querySelector('#logout').addEventListener('click', () => {localStorage.removeItem(tokenKey); dashboard.style.display='none'; loginPanel.style.display='block';});
+      const savedToken = localStorage.getItem(tokenKey); if (savedToken) showUsers(savedToken).catch(() => localStorage.removeItem(tokenKey));
+    </script>
+  </body>
+</html>
+
