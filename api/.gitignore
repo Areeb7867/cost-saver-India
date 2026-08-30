@@ -1,0 +1,6 @@
+.env
+costsaver.db
+test_costsaver.db
+__pycache__/
+.pytest_cache/
+
