@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -19,6 +22,11 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["Authorization", "Content-Type"],
 )
+
+
+@app.get("/admin", include_in_schema=False)
+def admin_page():
+    return FileResponse(Path(__file__).with_name("admin.html"))
 
 
 @app.get("/health")
