@@ -4,20 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Free Indian household cost calculators for budgets, commutes, and EMIs." />
+    <meta name="costsaver-api-url" content="http://127.0.0.1:8000" />
     <title>CostSaver India | Make every rupee count</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=3" />
+    <link rel="stylesheet" href="styles.css?v=5" />
     <style>
-      .budget-insight{color:#123139}.result-title{display:flex;justify-content:space-between;gap:15px;align-items:start;margin-bottom:16px}.result-title h3{font:25px "Playfair Display";letter-spacing:-.8px;margin:4px 0 0}.status{border-radius:999px;padding:7px 10px;font-size:11px;font-weight:700;white-space:nowrap}.status.positive{background:#d4f2db;color:#156c38}.status.watch{background:#fff0c4;color:#805800}.status.negative{background:#ffd9d4;color:#a12e27}.snapshot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}.snapshot-grid>div{background:#fff;border-radius:6px;padding:14px}.snapshot-grid small,.next-card>small,.outlook-grid small{display:block;font-size:10px;font-weight:700;letter-spacing:.8px;color:#5d7173}.snapshot-grid strong{font:22px "Playfair Display";display:block;margin-top:5px;letter-spacing:-.6px}.negative-text{color:#aa3a31}.insight-columns{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}.mix-card,.next-card{background:#edf4ef;border-radius:6px;padding:15px}.mix-card h4,.next-card h4{font:600 15px "DM Sans";line-height:1.45;margin:0 0 12px}.mix-row{margin-top:11px}.mix-row div,.fact-row{display:flex;justify-content:space-between;font-size:12px}.fact-row{padding:9px 0;border-bottom:1px solid #d6e2da}.fact-row:last-child{border-bottom:0}.mix-row i{height:7px;display:block;background:#d2ded6;border-radius:99px;margin:6px 0 3px;overflow:hidden}.mix-row em{display:block;height:100%;border-radius:99px}.mix-row em.housing{background:#567cdb}.mix-row em.food{background:#d58b44}.mix-row em.commute{background:#4eaa91}.mix-row em.bills{background:#a16ac2}.mix-row em.other{background:#748183}.mix-row small{font-size:10px;color:#627471}.next-card{background:#123139;color:white}.next-card>small{color:#bce7d2}.next-card h4{font-size:15px}.next-card p{color:#d9ebe3;font-size:12px}.outlook-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.outlook-grid>div{border:1px solid #c9d9cd;border-radius:6px;padding:14px;background:#fff}.outlook-grid strong{display:block;font:22px "Playfair Display";margin:5px 0}.outlook-grid p{font-size:11px!important;color:#58706d!important}.advanced{border:1px solid #cad4cf;border-radius:5px;padding:11px}.advanced summary{cursor:pointer;font-size:12px;font-weight:700}.advanced-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}.advanced-grid label{font-size:12px;font-weight:700}.advanced-grid input{display:block;width:100%;font:16px "DM Sans";padding:9px;margin-top:6px;border:1px solid #cad4cf;border-radius:5px}.result-note{font-size:11px!important;color:#58706d!important;margin-top:13px!important}@media(max-width:760px){.snapshot-grid,.insight-columns,.outlook-grid,.advanced-grid{grid-template-columns:1fr}}
+      .account-actions{display:flex;align-items:center;gap:8px}.account-button{border:1px solid #b8c8c1;border-radius:999px;background:#fff;color:#123139;padding:9px 13px;font:700 12px "DM Sans";cursor:pointer}.account-button.primary{background:#123139;color:#fff;border-color:#123139}.account-button.signup{background:#d4f2db;border-color:#d4f2db}.account-user{font-size:12px;font-weight:700;color:#527069;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.account-form{display:grid;gap:14px}.account-form .field{display:grid;gap:6px}.account-form input{font:16px "DM Sans";padding:12px;border:1px solid #cad4cf;border-radius:5px}.account-form button[type="submit"]{border:0;border-radius:5px;background:#123139;color:#fff;padding:13px;font:700 14px "DM Sans";cursor:pointer}.account-form button[type="submit"]:disabled{opacity:.65;cursor:wait}.password-hint{font-size:11px;color:#5d7173;margin-top:-3px}.account-switch{text-align:center;color:#5d7173;font-size:12px}.account-switch button{border:0;background:none;color:#123139;font:700 12px "DM Sans";cursor:pointer;padding:0}.account-message{display:none;padding:10px 12px;border-radius:5px;font-size:12px}.account-message.show{display:block;background:#fff0c4;color:#805800}.account-message.error{background:#ffd9d4;color:#a12e27}.modal-heading{margin-bottom:20px}.modal-heading h2{font:34px "Playfair Display";letter-spacing:-1.5px;margin:0 0 6px}.modal-heading p{color:#5d7173;margin:0;font-size:13px}.saved-list{display:grid;gap:10px}.saved-plan{background:#edf4ef;border-radius:7px;padding:14px}.saved-plan-top{display:flex;justify-content:space-between;gap:12px}.saved-plan h4{margin:0;font:600 16px "DM Sans"}.saved-plan small{color:#5d7173}.saved-plan strong{font:22px "Playfair Display";display:block;margin-top:8px}.saved-empty{color:#5d7173;font-size:13px;line-height:1.6}.save-plan{margin-top:14px;width:100%;border:0;border-radius:5px;background:#123139;color:#fff;padding:12px 14px;font:700 13px "DM Sans";cursor:pointer}.save-plan:disabled{opacity:.65;cursor:wait}@media(max-width:760px){.account-actions{gap:5px}.account-actions .saved-button,.account-user{display:none}.account-button{padding:8px 10px;font-size:11px}}
     </style>
   </head>
   <body>
     <header class="site-header">
       <a class="brand" href="#top" aria-label="CostSaver India home"><span>&#8377;</span> CostSaver <em>India</em></a>
       <nav aria-label="Main navigation"><a href="#tools">Tools</a><a href="#how-it-works">How it works</a></nav>
-      <a class="header-cta" href="#tools">Try free tools</a>
+      <div class="account-actions" id="account-actions">
+        <button class="account-button" id="saved-plans-button" hidden>My saved plans</button>
+        <span class="account-user" id="account-user" hidden></span>
+        <button class="account-button" id="login-button">Login</button>
+        <button class="account-button signup" id="signup-button">Sign up</button>
+        <button class="account-button primary" id="logout-button" hidden>Log out</button>
+      </div>
     </header>
 
     <main id="top">
@@ -27,7 +34,7 @@
           <h1>Make every <i>rupee</i> count.</h1>
           <p class="hero-text">Simple, private tools to understand your monthly costs, make better choices, and find money you can save.</p>
           <div class="hero-actions"><a class="button button-primary" href="#tools">Explore free tools <span>&rarr;</span></a><a class="button button-text" href="#how-it-works">How it works</a></div>
-          <div class="trust-row"><span>&#10003; No sign-up</span><span>&#10003; Your data stays in your browser</span><span>&#10003; Free forever</span></div>
+          <div class="trust-row"><span>&#10003; Calculations work without an account</span><span>&#10003; Save plans when signed in</span><span>&#10003; Free forever</span></div>
         </div>
         <div class="hero-card" aria-label="Monthly savings preview">
           <div class="hero-card-top"><span>YOUR POTENTIAL SAVINGS</span><span class="sparkle">&#10022;</span></div>
@@ -47,13 +54,14 @@
       </section>
 
       <section class="reason-section" id="how-it-works"><div class="reason-number">01</div><div><p class="eyebrow">BUILT FOR REAL LIFE</p><h2>Less financial stress.<br /><i>More confidence.</i></h2></div><p>CostSaver India turns complicated costs into clear, useful decisions&mdash;without jargon, hidden fees, or a sales pitch.</p></section>
-      <section class="steps"><div><span>01</span><h3>Tell us the basics</h3><p>Enter a few numbers. Nothing is stored or shared.</p></div><div><span>02</span><h3>See the full picture</h3><p>Understand costs, trade-offs, and future impact.</p></div><div><span>03</span><h3>Choose your next move</h3><p>Use a clear, practical saving action today.</p></div></section>
+      <section class="steps"><div><span>01</span><h3>Tell us the basics</h3><p>Enter a few numbers. Nothing is stored unless you choose to save a plan.</p></div><div><span>02</span><h3>See the full picture</h3><p>Understand costs, trade-offs, and future impact.</p></div><div><span>03</span><h3>Choose your next move</h3><p>Save your plan to revisit it whenever you need.</p></div></section>
     </main>
 
     <footer><a class="brand" href="#top"><span>&#8377;</span> CostSaver <em>India</em></a><p>Made for smarter everyday decisions.</p><span>&copy; <span id="year"></span> CostSaver India</span></footer>
 
     <dialog id="calculator-modal"><button class="close-modal" aria-label="Close calculator">&times;</button><div id="calculator-content"></div></dialog>
-    <script src="app.js?v=3"></script>
+    <dialog id="account-modal"><button class="close-modal" aria-label="Close account dialog">&times;</button><div class="calculator"><div class="modal-heading"><h2 id="account-title">Create your account</h2><p id="account-subtitle">Create an account to save and revisit your plans.</p></div><form class="account-form" id="account-form"><div class="field" id="name-field"><label for="account-name">Full name</label><input id="account-name" name="full_name" maxlength="120" autocomplete="name" placeholder="Your name" /></div><div class="field"><label for="account-email">Email</label><input id="account-email" name="email" type="email" required autocomplete="email" placeholder="you@example.com" /></div><div class="field"><label for="account-password">Password</label><input id="account-password" name="password" type="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters" /><small class="password-hint">Use at least 8 characters for your password.</small></div><button type="submit" id="account-submit">Create account</button><div class="account-message" id="account-message"></div><div class="account-switch"><span id="account-switch-text">Already have an account?</span> <button type="button" id="account-switch-button">Login</button></div></form></div></dialog>
+    <dialog id="saved-modal"><button class="close-modal" aria-label="Close saved plans">&times;</button><div class="calculator"><div class="modal-heading"><h2>My saved plans</h2><p>Your saved budget snapshots, linked to your CostSaver account.</p></div><div class="saved-list" id="saved-list"></div></div></dialog>
+    <script src="app.js?v=5"></script>
   </body>
 </html>
-
