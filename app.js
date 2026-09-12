@@ -37,14 +37,25 @@ function setAccountMessage(message, isError = false) {
 }
 
 function updateAccountUI() {
-  const button = document.querySelector('#account-button');
   const saved = document.querySelector('#saved-plans-button');
   const user = document.querySelector('#account-user');
+  const login = document.querySelector('#login-button');
+  const signup = document.querySelector('#signup-button');
+  const logoutButton = document.querySelector('#logout-button');
   if (currentUser) {
-    user.hidden = false; user.textContent = currentUser.full_name || currentUser.email;
-    saved.hidden = false; button.textContent = 'Log out';
+    user.hidden = false;
+    user.textContent = currentUser.full_name || currentUser.email;
+    user.title = currentUser.email;
+    saved.hidden = false;
+    login.hidden = true;
+    signup.hidden = true;
+    logoutButton.hidden = false;
   } else {
-    user.hidden = true; saved.hidden = true; button.textContent = 'Login / Sign up';
+    user.hidden = true;
+    saved.hidden = true;
+    login.hidden = false;
+    signup.hidden = false;
+    logoutButton.hidden = true;
   }
 }
 
@@ -60,12 +71,15 @@ function openAccount(mode = 'login') {
   document.querySelector('#account-title').textContent = signup ? 'Create your account' : 'Welcome back';
   document.querySelector('#account-subtitle').textContent = signup ? 'Create an account to save and revisit your plans.' : 'Sign in to save and revisit your plans.';
   document.querySelector('#name-field').hidden = !signup;
+  document.querySelector('#account-name').required = signup;
   document.querySelector('#account-password').autocomplete = signup ? 'new-password' : 'current-password';
   document.querySelector('#account-submit').textContent = signup ? 'Create account' : 'Login';
   document.querySelector('#account-switch-text').textContent = signup ? 'Already have an account?' : "Don't have an account?";
   document.querySelector('#account-switch-button').textContent = signup ? 'Login' : 'Sign up';
   setAccountMessage('');
   accountModal.showModal();
+  const focusTarget = signup ? '#account-name' : '#account-email';
+  requestAnimationFrame(() => document.querySelector(focusTarget).focus());
 }
 
 async function submitAccount(event) {
@@ -88,7 +102,7 @@ async function submitAccount(event) {
   finally { submit.disabled = false; }
 }
 
-async function logout() {
+function logout() {
   localStorage.removeItem(TOKEN_KEY); currentUser = null; updateAccountUI();
 }
 
@@ -121,7 +135,9 @@ async function saveCurrentBudget(button) {
 document.querySelectorAll('[data-tool]').forEach(button => button.addEventListener('click', () => { content.innerHTML = templates[button.dataset.tool](); modal.showModal(); }));
 document.querySelector('.close-modal').addEventListener('click', () => modal.close());
 modal.addEventListener('click', event => { if (event.target === modal) modal.close(); });
-document.querySelector('#account-button').addEventListener('click', () => currentUser ? logout() : openAccount('login'));
+document.querySelector('#login-button').addEventListener('click', () => openAccount('login'));
+document.querySelector('#signup-button').addEventListener('click', () => openAccount('signup'));
+document.querySelector('#logout-button').addEventListener('click', logout);
 document.querySelector('#saved-plans-button').addEventListener('click', showSavedPlans);
 document.querySelector('#account-form').addEventListener('submit', submitAccount);
 document.querySelector('#account-switch-button').addEventListener('click', () => openAccount(accountMode === 'login' ? 'signup' : 'login'));
