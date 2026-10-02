@@ -17,7 +17,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="CostSaver India API", version="0.1.0", description="Secure APIs for saved CostSaver plans.")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_origin],
+    allow_origins=settings.frontend_origins,
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["Authorization", "Content-Type"],
@@ -50,7 +50,7 @@ def register_user(payload: RegisterRequest, db: Session = Depends(get_db)):
 @app.post("/auth/login", response_model=TokenResponse)
 def login_user(payload: LoginRequest, db: Session = Depends(get_db)):
     user = db.scalar(select(User).where(User.email == payload.email.lower()))
-    if not user or not verify_password(payload.password, user.password_hash):
+    if not user or not verify_password(payload.password, user.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
     return TokenResponse(access_token=create_access_token(user))
 
@@ -77,4 +77,3 @@ def list_saved_budgets(user: User = Depends(get_current_user), db: Session = Dep
 @app.get("/admin/users", response_model=list[UserResponse])
 def list_registered_users(_: User = Depends(require_admin), db: Session = Depends(get_db)):
     return list(db.scalars(select(User).order_by(User.created_at.desc()).limit(100)))
-
