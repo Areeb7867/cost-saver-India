@@ -50,7 +50,7 @@ def register_user(payload: RegisterRequest, db: Session = Depends(get_db)):
 @app.post("/auth/login", response_model=TokenResponse)
 def login_user(payload: LoginRequest, db: Session = Depends(get_db)):
     user = db.scalar(select(User).where(User.email == payload.email.lower()))
-    if not user or not verify_password(payload.password, user.password):
+    if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
     return TokenResponse(access_token=create_access_token(user))
 
