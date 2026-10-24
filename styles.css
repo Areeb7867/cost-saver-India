@@ -48,3 +48,31 @@ body:after{width:280px;height:280px;right:-90px;bottom:100px;background:rgba(246
 .steps div{background:rgba(255,255,255,.32);border:1px solid rgba(255,255,255,.65);border-radius:18px;padding:22px;box-shadow:inset 0 1px 0 #fff8,0 12px 30px rgba(32,72,88,.08)}
 footer{background:rgba(255,255,255,.42);border-top:1px solid rgba(255,255,255,.8);backdrop-filter:blur(20px)}
 dialog{background:rgba(250,254,252,.75);border:1px solid rgba(255,255,255,.95);box-shadow:0 28px 90px rgba(13,47,61,.3);backdrop-filter:blur(30px) saturate(145%);-webkit-backdrop-filter:blur(30px) saturate(145%)}
+
+/* Reference palette: lavender, chartreuse, tomato red, and deep plum */
+:root{--ink:#24152f;--muted:#55445f;--cream:#c9b8e8;--mint:#d4ff3f;--yellow:#d4ff3f;--coral:#e34a3f;--line:rgba(36,21,47,.2)}
+html,body{background:#c9b8e8;color:var(--ink)}
+body{background-image:radial-gradient(circle at 10% 8%,rgba(212,255,63,.95) 0 5%,transparent 5.5%),radial-gradient(circle at 95% 15%,rgba(227,74,63,.85) 0 10%,transparent 10.5%),radial-gradient(circle at 82% 78%,rgba(255,255,255,.35) 0 8%,transparent 8.5%),linear-gradient(135deg,#c9b8e8 0%,#d9c9f4 45%,#b99cde 100%);background-attachment:fixed}
+body:before{width:390px;height:390px;top:230px;left:-170px;background:rgba(227,74,63,.75);filter:blur(25px);opacity:.45;box-shadow:650px 420px 0 35px rgba(212,255,63,.7)}
+body:after{width:310px;height:310px;right:-110px;bottom:130px;background:rgba(212,255,63,.82);filter:blur(30px);opacity:.5;box-shadow:-580px -500px 0 28px rgba(227,74,63,.5)}
+.site-header{background:rgba(201,184,232,.72);border-bottom:2px solid rgba(36,21,47,.12);box-shadow:none;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.brand,.site-header nav a,.header-cta{color:#24152f}.brand span{background:#d4ff3f;color:#24152f;box-shadow:4px 4px 0 rgba(227,74,63,.55)}
+.site-header nav a{font-weight:700}.account-button{background:#f5efff!important;border:2px solid #24152f!important;color:#24152f!important;box-shadow:3px 3px 0 #24152f!important}.account-button.signup{background:#d4ff3f!important}
+.hero{max-width:1240px;min-height:680px;padding-top:110px;padding-bottom:120px}
+.hero h1{color:#24152f;text-shadow:none}.hero h1 i,.reason-section h2 i{color:#e34a3f}
+.eyebrow{color:#24152f}.hero-text,.trust-row{color:#55445f}
+.button-primary{background:#24152f;color:#fff;box-shadow:5px 5px 0 #e34a3f}.button-text{color:#24152f;border-color:#24152f}
+.hero-card{background:#d4ff3f;border:2px solid #24152f;border-radius:28px;box-shadow:18px 18px 0 #e34a3f,0 25px 45px rgba(36,21,47,.18);backdrop-filter:none;-webkit-backdrop-filter:none;transform:rotate(2deg)}
+.hero-card:before{background:rgba(255,255,255,.5)}.hero-card strong,.hero-card p,.hero-card-foot,.hero-card-foot b{color:#24152f}.mini-bars{border-bottom-color:#24152f}.mini-bars i{background:#24152f}
+.tool-section{background:#24152f;border:0;box-shadow:none;padding-top:105px;padding-bottom:110px}
+.section-heading .eyebrow{color:#d4ff3f}.section-heading h2{color:#f8f1ff}.section-heading>p{color:#c9b8e8}
+.tool-card{border:2px solid #24152f;border-radius:24px;box-shadow:8px 8px 0 rgba(201,184,232,.65);backdrop-filter:none;-webkit-backdrop-filter:none;color:#24152f}
+.budget-card{background:#d4ff3f}.commute-card{background:#c9b8e8}.emi-card{background:#e34a3f}.tool-card h3,.tool-card>p:not(.tool-tag),.tool-link,.tool-tag{color:#24152f}.tool-link{border-color:#24152f}.tool-icon{border-color:#24152f;background:rgba(255,255,255,.2)}
+.tool-card:hover{transform:translateY(-8px) rotate(-1deg);box-shadow:11px 13px 0 #e34a3f}
+.reason-section{background:#f5efff;border:2px solid #24152f;border-radius:28px;box-shadow:8px 8px 0 #e34a3f}
+.steps div{background:rgba(245,239,255,.72);border:2px solid #24152f;border-radius:20px;box-shadow:5px 5px 0 rgba(227,74,63,.7)}
+footer{background:#e34a3f;border-top:2px solid #24152f;color:#24152f}.footer .brand{color:#24152f}
+dialog{background:#f5efff;border:2px solid #24152f;box-shadow:15px 15px 0 #24152f}
+dialog::backdrop{background:rgba(36,21,47,.72)}
+.field input,.field select,.account-form input{background:#fff;border:2px solid #24152f;color:#24152f}
+.calculate{background:#24152f;box-shadow:4px 4px 0 #e34a3f}.result{background:#d4ff3f;border:2px solid #24152f}
